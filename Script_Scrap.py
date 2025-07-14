@@ -12,7 +12,7 @@ def index():
 
 @app.route("/news")
 def noticias():
-    url = "https://edition.cnn.com/"
+    url = "https://g1.globo.com"
 
     try:
         response = requests.get(url, headers={
