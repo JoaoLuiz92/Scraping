@@ -7,14 +7,14 @@ app = Flask(__name__)
 
 @app.route("/noticias")
 def noticias():
-    url = "https://edition.cnn.com/"
+    url = "https://www.cnnbrasil.com.br/"
     html = requests.get(url).text
     soup = BeautifulSoup(html, "html.parser")
 
-    links = [a['href'] for a in soup.select("a") if "/" in a['href']]
+    links = [a['href'] for a in soup.find_all('a', href=True) if "/" in a['href']]
     headlines = []
 
-    for link in links[:10]:  # só os 5 primeiros
+    for link in links[:5]:
         try:
             article = Article(link)
             article.download()
@@ -28,3 +28,6 @@ def noticias():
             continue
 
     return jsonify(headlines)
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=10000)
